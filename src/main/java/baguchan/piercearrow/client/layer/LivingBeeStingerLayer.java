@@ -19,7 +19,7 @@ import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class LivingBeeStingerLayer<T extends LivingEntity, M extends EntityModel<T>> extends LivingStuckInBodyLayer<T, M> {
-	private static final ResourceLocation BEE_STINGER_LOCATION = new ResourceLocation("textures/entity/bee/bee_stinger.png");
+	private static final ResourceLocation BEE_STINGER_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/bee/bee_stinger.png");
 
 	public LivingBeeStingerLayer(LivingEntityRenderer<T, M> p_174466_) {
 		super(p_174466_);
@@ -51,15 +51,15 @@ public class LivingBeeStingerLayer<T extends LivingEntity, M extends EntityModel
 			PoseStack.Pose posestack$pose = p_116584_.last();
 			Matrix4f matrix4f = posestack$pose.pose();
 			Matrix3f matrix3f = posestack$pose.normal();
-			vertex(vertexconsumer, matrix4f, matrix3f, -4.5F, -1, 0.0F, 0.0F, p_116586_);
-			vertex(vertexconsumer, matrix4f, matrix3f, 4.5F, -1, 0.125F, 0.0F, p_116586_);
-			vertex(vertexconsumer, matrix4f, matrix3f, 4.5F, 1, 0.125F, 0.0625F, p_116586_);
-			vertex(vertexconsumer, matrix4f, matrix3f, -4.5F, 1, 0.0F, 0.0625F, p_116586_);
+			vertex(vertexconsumer, matrix4f, posestack$pose, -4.5F, -1, 0.0F, 0.0F, p_116586_);
+			vertex(vertexconsumer, matrix4f, posestack$pose, 4.5F, -1, 0.125F, 0.0F, p_116586_);
+			vertex(vertexconsumer, matrix4f, posestack$pose, 4.5F, 1, 0.125F, 0.0625F, p_116586_);
+			vertex(vertexconsumer, matrix4f, posestack$pose, -4.5F, 1, 0.0F, 0.0625F, p_116586_);
 		}
 
 	}
 
-	private static void vertex(VertexConsumer p_116593_, Matrix4f p_116594_, Matrix3f p_116595_, float p_116596_, int p_116597_, float p_116598_, float p_116599_, int p_116600_) {
-		p_116593_.vertex(p_116594_, p_116596_, (float)p_116597_, 0.0F).color(255, 255, 255, 255).uv(p_116598_, p_116599_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(p_116600_).normal(p_116595_, 0.0F, 1.0F, 0.0F).endVertex();
+	private static void vertex(VertexConsumer p_116593_, Matrix4f p_116594_, PoseStack.Pose p_116595_, float p_116596_, int p_116597_, float p_116598_, float p_116599_, int p_116600_) {
+		p_116593_.addVertex(p_116594_, p_116596_, (float)p_116597_, 0.0F).setColor(255, 255, 255, 255).setUv(p_116598_, p_116599_).setOverlay(OverlayTexture.NO_OVERLAY).setLight(p_116600_).setNormal(p_116595_, 0.0F, 1.0F, 0.0F);
 	}
 }
