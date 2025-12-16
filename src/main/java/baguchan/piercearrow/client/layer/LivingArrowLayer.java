@@ -1,39 +1,38 @@
 package baguchan.piercearrow.client.layer;
 
+import baguchan.piercearrow.PierceArrow;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.object.projectile.ArrowModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.TippableArrowRenderer;
+import net.minecraft.client.renderer.entity.layers.StuckInBodyLayer;
+import net.minecraft.client.renderer.entity.state.ArrowRenderState;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraft.util.context.ContextKey;
 
-@OnlyIn(Dist.CLIENT)
-public class LivingArrowLayer<T extends LivingEntity, M extends EntityModel<T>> extends LivingStuckInBodyLayer<T, M> {
-    private final EntityRenderDispatcher dispatcher;
+public class LivingArrowLayer<M extends EntityModel<LivingEntityRenderState>> extends LivingStuckInBodyLayer<M, ArrowRenderState> {
+    public static final ContextKey<Integer> ARROW_KEY = new ContextKey<>(Identifier.fromNamespaceAndPath(PierceArrow.MODID, "arrow"));
 
-    public LivingArrowLayer(EntityRenderDispatcher p_174465_, LivingEntityRenderer<T, M> p_174466_) {
-        super(p_174466_);
-        this.dispatcher = p_174465_;
+    public LivingArrowLayer(LivingEntityRenderer<?, LivingEntityRenderState, M> p_174466_, EntityRendererProvider.Context p_174465_) {
+        super(
+                p_174466_,
+                new ArrowModel(p_174465_.bakeLayer(ModelLayers.ARROW)),
+                new ArrowRenderState(),
+                TippableArrowRenderer.NORMAL_ARROW_LOCATION,
+                LivingStuckInBodyLayer.PlacementStyle.IN_CUBE
+        );
     }
 
-    protected int numStuck(T p_116567_) {
-        return p_116567_.getArrowCount();
-    }
-
-    protected void renderStuckItem(PoseStack p_116569_, MultiBufferSource p_116570_, int p_116571_, Entity p_116572_, float p_116573_, float p_116574_, float p_116575_, float p_116576_) {
-        float f = Mth.sqrt(p_116573_ * p_116573_ + p_116575_ * p_116575_);
-        Arrow arrow = new Arrow(p_116572_.level(), p_116572_.getX(), p_116572_.getY(), p_116572_.getZ(), new ItemStack(Items.ARROW), null);
-        arrow.setYRot((float) (Math.atan2((double) p_116573_, (double) p_116575_) * (double) (180F / (float) Math.PI)));
-        arrow.setXRot((float) (Math.atan2((double) p_116574_, (double) f) * (double) (180F / (float) Math.PI)));
-        arrow.yRotO = arrow.getYRot();
-        arrow.xRotO = arrow.getXRot();
-        this.dispatcher.render(arrow, 0.0D, 0.0D, 0.0D, 0.0F, p_116576_, p_116569_, p_116570_, p_116571_);
+    @Override
+    protected int numStuck(LivingEntityRenderState p_445491_) {
+        return p_445491_.getRenderDataOrDefault(ARROW_KEY, 0);
     }
 }
