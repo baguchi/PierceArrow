@@ -7,8 +7,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(PierceArrow.MODID)
-public class PierceArrow
-{
+public class PierceArrow {
     public static final String MODID = "piercearrow";
 
     public PierceArrow(IEventBus modBusEvent, ModContainer modContainer) {
@@ -17,7 +16,6 @@ public class PierceArrow
 
     }
 
-    private void setup(final FMLCommonSetupEvent event)
-    {
+    private void setup(final FMLCommonSetupEvent event) {
     }
 }

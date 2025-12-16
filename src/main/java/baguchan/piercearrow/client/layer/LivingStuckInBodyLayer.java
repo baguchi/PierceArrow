@@ -7,12 +7,9 @@ import com.mojang.math.Axis;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.layers.StuckInBodyLayer;
-import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
@@ -48,8 +45,8 @@ public abstract class LivingStuckInBodyLayer<M extends EntityModel<LivingEntityR
             PoseStack p_433276_, SubmitNodeCollector p_435462_, int p_432864_, float p_433745_, float p_435402_, float p_434638_, int p_435395_
     ) {
         float f = Mth.sqrt(p_433745_ * p_433745_ + p_434638_ * p_434638_);
-        float f1 = (float)(Math.atan2(p_433745_, p_434638_) * 180.0F / (float)Math.PI);
-        float f2 = (float)(Math.atan2(p_435402_, f) * 180.0F / (float)Math.PI);
+        float f1 = (float) (Math.atan2(p_433745_, p_434638_) * 180.0F / (float) Math.PI);
+        float f2 = (float) (Math.atan2(p_435402_, f) * 180.0F / (float) Math.PI);
         p_433276_.mulPose(Axis.YP.rotationDegrees(f1 - 90.0F));
         p_433276_.mulPose(Axis.ZP.rotationDegrees(f2));
         p_435462_.submitModel(
